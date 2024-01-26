@@ -3,10 +3,7 @@ package com.example.demo.controller;
 import com.example.demo.entity.Country;
 import com.example.demo.service.CountryService;
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -16,6 +13,11 @@ import java.util.List;
 public class CountryController {
 
     private final CountryService countryService;
+
+    @PostMapping(value = "", consumes =  "application/json", produces = "application/json")
+    public Country create(@RequestBody Country country) {
+        return countryService.create(country);
+    }
 
     @GetMapping(value = "", produces = "application/json")
     public List<Country> getAll(@RequestParam String capitalName, @RequestParam(required = false) Boolean useSql) {
