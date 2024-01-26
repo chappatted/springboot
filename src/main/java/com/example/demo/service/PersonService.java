@@ -22,10 +22,6 @@ public class PersonService {
         return personRepository.save(person);
     }
 
-    public Optional<Person> getOne(Long Id) {
-        return personRepository.findById(Id);
-    }
-
     public Optional<Address> addAddress(Long personId, Address address) {
         Optional<Person> person = personRepository.findById(personId);
 
