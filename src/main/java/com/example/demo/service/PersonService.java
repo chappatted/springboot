@@ -8,6 +8,7 @@ import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -37,5 +38,20 @@ public class PersonService {
         addressRepository.save(address);
 
         return Optional.of(address);
+    }
+
+    public List<Address> addAddresses(Long personId, List<Address> addresses) {
+        Optional<Person> person = personRepository.findById(personId);
+
+        if(person.isEmpty()) {
+            return List.of();
+        }
+
+        for(Address address : addresses) {
+            address.setPerson(person.get());
+            addressRepository.save(address);
+        }
+
+        return addresses;
     }
 }
