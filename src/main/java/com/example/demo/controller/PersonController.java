@@ -22,6 +22,17 @@ public class PersonController {
         return personService.create(person);
     }
 
+    @GetMapping(value = "{id}", produces = "application/json")
+    public Person getOne(@PathVariable Long id) {
+        Optional<Person> person = personService.getOne(id);
+
+        if(person.isPresent()) {
+            return person.get();
+        } else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+    }
+
     @PutMapping(value = "{id}/address", consumes =  "application/json", produces = "application/json")
     public Address addAddress(@PathVariable Long id, @RequestBody Address address) {
         Optional<Address> newAddress = personService.addAddress(id, address);
