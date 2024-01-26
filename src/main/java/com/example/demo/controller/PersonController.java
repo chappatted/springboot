@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -39,6 +40,17 @@ public class PersonController {
 
         if(newAddress.isPresent()) {
             return newAddress.get();
+        } else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @PutMapping(value = "{id}/addresses", consumes =  "application/json", produces = "application/json")
+    public List<Address> addAddresses(@PathVariable Long id, @RequestBody List<Address> addresses) {
+        List<Address> newAddresses = personService.addAddresses(id, addresses);
+
+        if(!newAddresses.isEmpty()) {
+            return newAddresses;
         } else {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
