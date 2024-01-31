@@ -1,9 +1,10 @@
 package com.example.demo.service;
 
+import com.example.demo.dto.BookCreationDto;
+import com.example.demo.dto.BookResponseDto;
 import com.example.demo.entity.Book;
 import com.example.demo.repository.BookRepository;
 import jakarta.transaction.Transactional;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -24,15 +25,18 @@ public class BookService {
 
     private final BookRepository bookRepository;
 
-    public Book create(Book book) {
-        return bookRepository.save(book);
+    public BookResponseDto create(BookCreationDto dto) {
+        Book book = dto.toEntity();
+        bookRepository.save(book);
+
+        return BookResponseDto.fromEntity(book);
     }
 
-    public Optional<Book> getOne(Long id) {
-        return bookRepository.findById(id);
+    public Optional<BookResponseDto> getOne(Long id) {
+        return bookRepository.findById(id).map(BookResponseDto::fromEntity);
     }
 
-    public List<Book> getAll() {
-        return bookRepository.findAll();
+    public List<BookResponseDto> getAll() {
+        return bookRepository.findAll().stream().map(BookResponseDto::fromEntity).toList();
     }
 }
