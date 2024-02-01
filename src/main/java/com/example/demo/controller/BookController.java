@@ -1,12 +1,9 @@
 package com.example.demo.controller;
 
-import com.example.demo.dto.BookCreationDto;
-import com.example.demo.dto.BookResponseDto;
+import com.example.demo.entity.Book;
 import com.example.demo.service.BookService;
-import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -21,13 +18,13 @@ public class BookController {
     private final BookService bookService;
 
     @PostMapping(value = "", consumes =  "application/json", produces = "application/json")
-    public BookResponseDto create(@Valid @RequestBody BookCreationDto dto) {
-        return bookService.create(dto);
+    public Book create(@RequestBody Book book) {
+        return bookService.create(book);
     }
 
     @GetMapping(value = "{id}", produces = "application/json")
-    public BookResponseDto getOne(@PathVariable Long id) {
-        Optional<BookResponseDto> book = bookService.getOne(id);
+    public Book getOne(@PathVariable Long id) {
+        Optional<Book> book = bookService.getOne(id);
 
         if(book.isPresent()) {
             return book.get();
@@ -37,7 +34,7 @@ public class BookController {
     }
 
     @GetMapping(value = "", produces = "application/json")
-    public List<BookResponseDto> getAll() {
+    public List<Book> getAll() {
         return bookService.getAll();
     }
 }
