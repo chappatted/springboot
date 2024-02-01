@@ -3,14 +3,14 @@ package com.example.demo.service;
 import com.example.demo.entity.Country;
 import com.example.demo.repository.CountryRepository;
 import jakarta.transaction.Transactional;
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 @Transactional
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class CountryService {
 
     private final CountryRepository countryRepository;
