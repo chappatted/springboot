@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.entity.Country;
+import com.example.demo.repository.CapitalRepository;
 import com.example.demo.repository.CountryRepository;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
@@ -14,6 +15,14 @@ import java.util.List;
 public class CountryService {
 
     private final CountryRepository countryRepository;
+
+    private final CapitalRepository capitalRepository;
+
+    public Country create(Country country) {
+        capitalRepository.save(country.getCapital());
+
+        return countryRepository.save(country);
+    }
 
     public List<Country> getCountriesByCapitalNameJpa(String capitalName) {
         System.out.println("Using JPA");
