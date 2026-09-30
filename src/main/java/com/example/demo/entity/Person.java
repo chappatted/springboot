@@ -1,7 +1,11 @@
 package com.example.demo.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
@@ -9,6 +13,8 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Person {
 
     @Id
@@ -18,6 +24,14 @@ public class Person {
     private String firstName;
 
     private String lastName;
+
+    private String email;
+
+    @JsonIgnore
+    private String password;
+
+    @JsonIgnore
+    private Boolean showInSearch;
 
     @OneToMany(mappedBy = "person")
     private List<Address> addresses;
