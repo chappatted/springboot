@@ -7,6 +7,8 @@ import ch.hearc.springboot.repository.StudentRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @Transactional
 public class StudentService {
@@ -22,5 +24,23 @@ public class StudentService {
         student = studentRepository.save(student);
 
         return new StudentDto(student.getId(), student.getFirstName(), student.getLastName());
+    }
+
+    public StudentDto getOne(final Long id) {
+        Student student = studentRepository.findById(id).orElseThrow(() -> new RuntimeException("Student not found"));
+
+        return new StudentDto(student.getId(), student.getFirstName(), student.getLastName());
+    }
+
+    public List<StudentDto> getAll() {
+        List<Student> students = studentRepository.findAll();
+
+        return students.stream()
+                .map(student -> new StudentDto(student.getId(), student.getFirstName(), student.getLastName()))
+                .toList();
+    }
+
+    public void delete(final Long id) {
+        studentRepository.deleteById(id);
     }
 }
