@@ -1,0 +1,29 @@
+services:
+  postgres:
+    image: postgres:15
+    container_name: springboot_postgres_db
+    environment:
+      POSTGRES_USER: springboot
+      POSTGRES_PASSWORD: 1234
+      POSTGRES_DB: springboot_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: springboot_pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@example.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "8888:80"
+    depends_on:
+      - postgres
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+
+volumes:
+  postgres_data:
+  pgadmin_data:
