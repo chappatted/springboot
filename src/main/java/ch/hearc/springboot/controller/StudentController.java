@@ -3,6 +3,7 @@ package ch.hearc.springboot.controller;
 import ch.hearc.springboot.dto.CreateStudentDto;
 import ch.hearc.springboot.dto.StudentDto;
 import ch.hearc.springboot.service.StudentService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,22 +19,23 @@ public class StudentController {
     }
 
     @PostMapping(value = "", consumes =  "application/json", produces = "application/json")
-    public StudentDto create(@RequestBody final CreateStudentDto dto) {
-        return studentService.create(dto);
+    public ResponseEntity<StudentDto> create(@RequestBody final CreateStudentDto dto) {
+        return ResponseEntity.ok(studentService.create(dto));
     }
 
     @GetMapping(value = "{id}", produces = "application/json")
-    public StudentDto getOne(@PathVariable final Long id) {
-        return studentService.getOne(id);
+    public ResponseEntity<StudentDto> getOne(@PathVariable final Long id) {
+        return ResponseEntity.ok(studentService.getOne(id));
     }
 
     @GetMapping(value = "", produces = "application/json")
-    public List<StudentDto> getAll() {
-        return studentService.getAll();
+    public ResponseEntity<List<StudentDto>> getAll() {
+        return ResponseEntity.ok(studentService.getAll());
     }
 
     @DeleteMapping(value = "{id}", produces = "application/json")
-    public void delete(@PathVariable final Long id) {
+    public ResponseEntity<Void> delete(@PathVariable final Long id) {
         studentService.delete(id);
+        return ResponseEntity.noContent().build();
     }
 }

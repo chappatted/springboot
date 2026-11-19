@@ -3,6 +3,7 @@ package ch.hearc.springboot.service;
 import ch.hearc.springboot.dto.CreateStudentDto;
 import ch.hearc.springboot.dto.StudentDto;
 import ch.hearc.springboot.entity.Student;
+import ch.hearc.springboot.exception.StudentNotFoundException;
 import ch.hearc.springboot.repository.StudentRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
@@ -27,7 +28,7 @@ public class StudentService {
     }
 
     public StudentDto getOne(final Long id) {
-        Student student = studentRepository.findById(id).orElseThrow(() -> new RuntimeException("Student not found"));
+        Student student = studentRepository.findById(id).orElseThrow(() -> new StudentNotFoundException(id));
 
         return new StudentDto(student.getId(), student.getFirstName(), student.getLastName());
     }
