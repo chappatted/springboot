@@ -1,7 +1,10 @@
 package ch.hearc.springboot.entity;
 
 import jakarta.persistence.*;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -24,6 +27,12 @@ public class Student {
             inverseJoinColumns = @JoinColumn(name = "student_id", referencedColumnName = "id"))
     private List<Course> courses;
 
+    @CreatedDate
+    private LocalDateTime createdDate;
+
+    @LastModifiedDate
+    private LocalDateTime lastModifiedDate;
+
     public Student() {
     }
 
@@ -42,5 +51,40 @@ public class Student {
 
     public String getLastName() {
         return lastName;
+    }
+
+    public StudentCard getStudentCard() {
+        return studentCard;
+    }
+
+    public List<Course> getCourses() {
+        return courses;
+    }
+
+    public LocalDateTime getCreatedDate() {
+        return createdDate;
+    }
+
+    public LocalDateTime getLastModifiedDate() {
+        return lastModifiedDate;
+    }
+
+    public void update(String firstName, String lastName) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
+
+    public void addCourse(Course course) {
+        if(!courses.contains(course)) {
+            courses.add(course);
+            course.getStudents().add(this);
+        }
+    }
+
+    public void removeCourse(Course course) {
+        if(courses.contains(course)) {
+            courses.remove(course);
+            course.getStudents().remove(this);
+        }
     }
 }
