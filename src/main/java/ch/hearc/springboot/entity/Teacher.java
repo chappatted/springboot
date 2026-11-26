@@ -3,11 +3,14 @@ package ch.hearc.springboot.entity;
 import jakarta.persistence.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 public class Teacher {
 
     @Id
@@ -19,7 +22,7 @@ public class Teacher {
     private String lastName;
 
     @OneToMany(mappedBy = "teacher")
-    private List<Course> courses;
+    private List<Course> courses = new ArrayList<>();
 
     @CreatedDate
     private LocalDateTime createdDate;

@@ -9,7 +9,7 @@ public record StudentDto(
         Long id,
         String firstName,
         String lastName,
-        StudentCard studentCard,
+        Long studentCardId,
         List<Long> courseIds,
         LocalDateTime createdDate,
         LocalDateTime lastModifiedDate) {}

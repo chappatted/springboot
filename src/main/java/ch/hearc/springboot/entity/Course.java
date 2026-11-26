@@ -3,11 +3,14 @@ package ch.hearc.springboot.entity;
 import jakarta.persistence.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 public class Course {
 
     @Id
@@ -19,7 +22,7 @@ public class Course {
     private String description;
 
     @ManyToMany(mappedBy = "courses")
-    private List<Student> students;
+    private List<Student> students = new ArrayList<>();
 
     @ManyToOne
     @JoinColumn(name="teacher_id")
@@ -86,5 +89,9 @@ public class Course {
             students.remove(student);
             student.getCourses().remove(this);
         }
+    }
+
+    public void removeTeacher() {
+        this.teacher = null;
     }
 }

@@ -63,7 +63,13 @@ public class StudentService {
     }
 
     public void delete(final Long id) {
-        studentRepository.deleteById(id);
+        Student student = findStudent(id);
+
+        if(student.getStudentCard() != null) {
+            student.getStudentCard().removeStudent();
+        }
+
+        studentRepository.delete(student);
     }
 
     public Student findStudent(final Long id) {
@@ -81,7 +87,7 @@ public class StudentService {
                 student.getId(),
                 student.getFirstName(),
                 student.getLastName(),
-                student.getStudentCard() == null ? null : student.getStudentCard(),
+                student.getStudentCard() == null ? null : student.getStudentCard().getId(),
                 courseIds,
                 student.getCreatedDate(),
                 student.getLastModifiedDate());

@@ -42,7 +42,13 @@ public class TeacherService {
     }
 
     public void delete(final Long id) {
-        teacherRepository.delete(findTeacher(id));
+        Teacher teacher = findTeacher(id);
+
+        for(Course course : teacher.getCourses()) {
+            course.removeTeacher();
+        }
+
+        teacherRepository.delete(teacher);
     }
 
     public Teacher findTeacher(Long id) {

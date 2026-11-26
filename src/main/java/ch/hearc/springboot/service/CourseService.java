@@ -32,7 +32,9 @@ public class CourseService {
     }
 
     public CourseDto create(final CreateCourseDto dto) {
-        Course course = new Course(dto.name(), dto.description(), findTeacher(dto.teacherId()));
+        Teacher teacher = dto.teacherId() == null ? null : findTeacher(dto.teacherId());
+        Course course = new Course(dto.name(), dto.description(), teacher);
+
         return toDto(courseRepository.save(course));
     }
 
@@ -65,7 +67,13 @@ public class CourseService {
     }
 
     public void delete(final Long id) {
-        courseRepository.delete(findCourse(id));
+        Course course = findCourse(id);
+
+        for(Student student : course.getStudents()) {
+            student.getCourses().remove(course);
+        }
+
+        courseRepository.delete(course);
     }
 
     public Course findCourse(Long id) {
